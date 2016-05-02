@@ -27,7 +27,29 @@ line 42540 last row of bottom section
 """
 path = 'data/lc/'
 url = path + 'LoanStats3a.csv'
-df = pd.read_csv(url,skiprows=[0, 39788,39789,39790, 42540, 42541, 42542, 42543])
+df1 = pd.read_csv(url,skiprows=[0, 39788,39789,39790, 42540, 42541, 42542, 42543])
+print df1.shape
+print df1.id.value_counts().shape
+df2 = pd.read_csv('data/lc/LoanStats3b.csv',skiprows=1,skipfooter=2)
+print df2.shape
+print df2.id.value_counts().shape
+df3 = pd.read_csv('data/lc/LoanStats3c.csv',skiprows=1,skipfooter=2)
+print df3.shape
+print df3.id.value_counts().shape
+df4 = pd.read_csv('data/lc/LoanStats3d.csv',skiprows=1,skipfooter=2)
+print df4.shape
+print df4.id.value_counts().shape
+#%%
+# Check that all the columns are the same across all 4 files
+checkcols=pd.DataFrame([df1.columns,df2.columns, df3.columns, df4.columns])
+a = [checkcols[x].value_counts().values[0] for x in checkcols]
+if (len(set(a)) == 1) & (set(a).pop() == 4):
+    print "success"
+#%%
+df = pd.concat([df1, df2, df3, df4])
+df.rename(columns={'id': 'lc_id'},inplace=True)
+print df.shape
+
 #%%
 print df.shape
 print "unique ids: {}".format(pd.value_counts(df.id).shape)
@@ -35,12 +57,27 @@ print "unique member_ids: {}".format(pd.value_counts(df.member_id).shape)
 #%%
 print df[0:1]
 print df.iloc[-1]
+
 #%%
+#%% Just save it as a new file
+path = 'data/processed/LoanStats-combined.csv'
+df.to_csv(path,index=False)
+#%%
+
 # does loan_amnt always equal funded_amnt?
 adiff=df.loan_amnt - df.funded_amnt
 print pd.value_counts(adiff).shape
 pd.value_counts(adiff).head()
 #%%
+''' 
+Let's read the zillow data now
+'''
+zil=pd.read_csv('data/zillow/Zip_MedianRentalPrice_AllHomes.csv')
+#%%
+zil.shape
+#need to compress the zipcodes, lc zipcode data is just first 3 digits
+# first, just trim all but the first 3
+zil['zip3'] = zil.RegionName.apply(lambda z: str(z)[0:3])
 #%%
 # Here are all the columns, in this file at least:
 '''
@@ -90,13 +127,27 @@ featurecolset = \
  [
 'emp_length',  'annual_inc', 'dti',
 ]
+#%% automatically try to pull out categoricals
+a = [ df[x].unique().shape[0] for x in df] # count unique values
+categorical_cols = \
+[
+'term', 'grade', 'home_ownership', 'verification_status', 
+'loan_status', 'pymnt_plan', 'initial_list_status', 
+'policy_code', 'application_type', 
+'verification_status_joint', 'acc_now_delinq',
+ 'num_tl_120dpd_2m', 'num_tl_30dpd'
+ ]
+
+
 df=df[colset1]
 print df.shape
 print pd.value_counts(df.loan_status)
 print pd.value_counts(df.grade)
 #%%
-df2=df[(df.loan_status == 'Fully Paid') | (df.loan_status == 'Charged Off') ].copy()
-df2['loan_status_num'] = df2.loan_status.map({'Charged Off':0, 'Fully Paid':1})
+df2=df[(df.loan_status == 'Fully Paid') | (df.loan_status == 'Charged Off') | 
+    (df.loan_status == 'Current')  ].copy()
+df2['loan_status_num'] = df2.loan_status.map(
+    {'Charged Off':0, 'Fully Paid':1, 'Current':1})
 df2['grade_num'] = df2.grade.map({'A':0, 'B':1, 'C':2, 'D':3, 'E':4, 'F':5, 'G':6})
 df2.sort_values(by='grade_num',inplace=True)
 grouped=df2.groupby('grade')
@@ -147,6 +198,14 @@ ax.bar(
     color='r')
 #ax.bar([x-.4 for x in range(0,7)],df2.groupby('grade').loan_status_num.sum())
 #%%
+from sklearn.cross_validation import train_test_split
+from sklearn import metrics
+X_train, X_test, y_train, y_test = train_test_split(X, y,random_state=22)
+logreg2 = LogisticRegression()
+logreg2.fit(X_train,y_train)
+y_pred_class = logreg2.predict(X_test)
+print metrics.accuracy_score(y_test, y_pred_class)
+print metrics.accuracy_score(y_test,[1]*len(y_test))
 
 #%%
 
