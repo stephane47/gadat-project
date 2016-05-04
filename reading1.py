@@ -24,6 +24,15 @@ bottom section:
 lines 39789-39791 are blank/text
 line 39792 starts row data (same headers as top)
 line 42540 last row of bottom section
+
+files LoanStats3b.csv, LoanStats3c.csv, LoanStats3d.csv
+
+Loan data for 2012-2016 Q1
+all files have:
+1st line misc text
+2nd line header row
+bottom 2 lines misc text
+
 """
 path = 'data/lc/'
 url = path + 'LoanStats3a.csv'
@@ -62,8 +71,12 @@ print df.iloc[-1]
 #%% Just save it as a new file
 path = 'data/processed/LoanStats-combined.csv'
 df.to_csv(path,index=False)
-#%%
 
+
+
+
+#%% beginning of split file... read in df to start
+df = pd.read_csv(path)
 # does loan_amnt always equal funded_amnt?
 adiff=df.loan_amnt - df.funded_amnt
 print pd.value_counts(adiff).shape
