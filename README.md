@@ -9,5 +9,8 @@
 - **Draft Paper (April 28)**
 	- `DraftPaper.ipynb`[(link)](DraftPaper.ipynb)
 	- `lc-data-processing2.ipynb`[(link)](lc-data-processing2.ipynb)
+- **Draft Paper (April 28)**
+	- `DraftPaper.ipynb`[(link)](DraftPaper.ipynb)
+	- `lc-data-processing2.ipynb`[(link)](lc-data-processing2.ipynb)
 
 
