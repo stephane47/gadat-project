@@ -9,8 +9,6 @@
 - **Draft Paper (April 28)**
 	- `DraftPaper.ipynb`[(link)](DraftPaper.ipynb)
 	- `lc-data-processing2.ipynb`[(link)](lc-data-processing2.ipynb)
-- **Draft Paper (April 28)**
-	- `DraftPaper.ipynb`[(link)](DraftPaper.ipynb)
-	- `lc-data-processing2.ipynb`[(link)](lc-data-processing2.ipynb)
-
+- **Final project presentation and paper (May 19)**
+	- `final-project.md`[(link)](final-project.md)
 
