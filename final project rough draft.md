@@ -34,7 +34,7 @@ Results: slightly different models!
 
 * Accuracy scores shown for y_test:
 
-![alt text](images/gridsearch-results.png "no title")
+![alt text](images/gridsearch-results.png "no  title")
 
 ---
 ## Model Performance & Comparison:
