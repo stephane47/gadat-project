@@ -13,9 +13,11 @@ Let's read the zillow data now
 '''
 zil=pd.read_csv('data/zillow/Zip_MedianRentalPrice_AllHomes.csv')
 #%%
+"""
+need to compress the zipcodes, lc zipcode data is just first 3 digits
+   first, just trim all but the first 3
+"""
 zil.shape
-#need to compress the zipcodes, lc zipcode data is just first 3 digits
-# first, just trim all but the first 3
 zil['zip3'] = zil.RegionName.apply(lambda z: str(z)[0:3])
 print 'before compressing, zil shape'
 print zil.shape
@@ -71,6 +73,19 @@ for ci in zilc.columns[0:-1]:
 import matplotlib.pyplot as plt
 for findex, ci in enumerate(zilc.columns[0:-1]): # 119 is crazy
 #    ci = zilc.columns[findex]
+    if True:
+        shortx = zilc[['moin',ci]].dropna().moin.reshape(-1,1)
+        shorty = zilc[['moin',ci]].dropna()[ci].reshape(-1,1)
+        plt.plot(shortx,shorty,'-b',
+                [shortx[0][0], shortx[-1][0]],
+            [ coeflist[findex]*shortx[0][0] + interclist[findex],
+             coeflist[findex] *shortx[-1][0] + interclist[findex]],'-r')
+plt.title('sample fits')
+plt.xticks(zilc.moin[::8],zilc.index[::8], rotation='vertical')
+
+#%%
+for findex, ci in enumerate(zilc.columns[0:-1]): # 119 is crazy
+#    ci = zilc.columns[findex]
     if (findex != 14) & (findex%25 == 0):
         shortx = zilc[['moin',ci]].dropna().moin.reshape(-1,1)
         shorty = zilc[['moin',ci]].dropna()[ci].reshape(-1,1)
@@ -80,10 +95,20 @@ for findex, ci in enumerate(zilc.columns[0:-1]): # 119 is crazy
              coeflist[findex] *shortx[-1][0] + interclist[findex]],'-r')
 plt.title('sample fits')
 plt.xticks(zilc.moin[::8],zilc.index[::8], rotation='vertical')
-#plt.plot(shortx,shorty,'-b',
-#        [shortx[0][0], shortx[-1][0]],
-#    [ linreg.coef_[0][0]*shortx[0][0] + linreg.intercept_[0],
-#     linreg.coef_[0][0] *shortx[-1][0] + linreg.intercept_[0]],'-r')
+
+#%%
+for findex, ci in enumerate(zilc.columns[0:-1]): # 119 is crazy
+#    ci = zilc.columns[findex]
+    if (findex != 14) & (findex%20 == 0) & (zilc[ci].max()<2000):
+        shortx = zilc[['moin',ci]].dropna().moin.reshape(-1,1)
+        shorty = zilc[['moin',ci]].dropna()[ci].reshape(-1,1)
+        plt.plot(shortx,shorty,'-b',
+                [shortx[0][0], shortx[-1][0]],
+            [ coeflist[findex]*shortx[0][0] + interclist[findex],
+             coeflist[findex] *shortx[-1][0] + interclist[findex]],'-r')
+plt.title('sample fits')
+plt.xticks(zilc.moin[::8],zilc.index[::8], rotation='vertical')
+
 #%% now, create the list to add to the lc df
 # df just needs 2 new columns, and the values are the coef & intercept
 path = 'data/processed/LoanStats-combined.csv'
