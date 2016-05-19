@@ -3,7 +3,7 @@ Project proposal: Predicting the return of peer to peer loans
 ------
 ## Project goals:
 
-###1. Create Model for predicting loan success
+###1. Create model for predicting loan success
 ###2. Improve model by adding another source of information
 
 ![alt text](images/path5131.png "no title")
@@ -13,8 +13,9 @@ Project proposal: Predicting the return of peer to peer loans
 ## Incorporating Zillow data:
 
 
-* Challenges
-* calculate the slope of the rents over the interval that the loans occurred. Add slope & intercept as features to the model
+* LC data contains insufficient date information for accurate combination
+* Using the slope of the rents over the interval that the loans occurred. 
+* Add slope & intercept as features to the model
 
 ![alt text](images/sample-rent-fits.png "no title")
 
@@ -23,12 +24,15 @@ Project proposal: Predicting the return of peer to peer loans
 
 
 ## Model Performance & Comparison:
-### Accuracy Scores
-
+### Model fit & accuracy Scores
 
 * Using grid search with logistic regression to fit a model both with and without the zip code data.
 Results: slightly different models!
 
+![alt text](images/pred-prob.png "no title")
+![alt text](images/pred-probz.png "no title")
+
+* Accuracy scores shown for y_test:
 
 ![alt text](images/gridsearch-results.png "no title")
 
@@ -46,7 +50,7 @@ Very small difference in predictions
 ## Model Performance & Comparison:
 ### ROC & AUC 
 
-* How I actually did it
+* Where to adjust the threshold
 
 ![alt text](images/roc-auc.png "no title")
 ![alt text](images/tpr-tnr-thresh.png "no title")

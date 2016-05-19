@@ -80,7 +80,7 @@ for findex, ci in enumerate(zilc.columns[0:-1]): # 119 is crazy
                 [shortx[0][0], shortx[-1][0]],
             [ coeflist[findex]*shortx[0][0] + interclist[findex],
              coeflist[findex] *shortx[-1][0] + interclist[findex]],'-r')
-plt.title('sample fits')
+plt.title('sample fits (all)')
 plt.xticks(zilc.moin[::8],zilc.index[::8], rotation='vertical')
 
 #%%
@@ -106,7 +106,7 @@ for findex, ci in enumerate(zilc.columns[0:-1]): # 119 is crazy
                 [shortx[0][0], shortx[-1][0]],
             [ coeflist[findex]*shortx[0][0] + interclist[findex],
              coeflist[findex] *shortx[-1][0] + interclist[findex]],'-r')
-plt.title('sample fits')
+plt.title('sample fits (low rents)')
 plt.xticks(zilc.moin[::8],zilc.index[::8], rotation='vertical')
 
 #%% now, create the list to add to the lc df
