@@ -1,4 +1,4 @@
-Project proposal: Predicting the return of peer to peer loans
+Final Project: Predicting the return of peer to peer loans
 ======
 ------
 ## Project goals:
